@@ -21,8 +21,8 @@ Route::get('/', function () {
 });
 
 Route::prefix('login')->group(function () {
-    Route::get('/', [AuthController::class, "login"])->name("auth.login.get");
-    Route::post('/', [\App\Http\Controllers\Api\AuthController::class, "login"])->name("auth.login.post");
+    Route::get('/', [AuthController::class, "login"])->name("auth.login.get")->middleware(["logged"]);
+    Route::post('/', [\App\Http\Controllers\Api\AuthController::class, "login"])->name("auth.login.post")->middleware(["logged"]);
 });
 
 Route::prefix('auth')->group(function () {
@@ -36,12 +36,17 @@ Route::prefix('register')->group(function () {
 
 Route::prefix('admin')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('app.admin.index')->middleware(['auth', 'admin']);
+    Route::get('/users/update/{user_id}', [AdminController::class, 'updateUser'])->name('app.admin.update')->middleware(['auth', 'admin']);
+    Route::post('/users/update/{user_id}', [\App\Http\Controllers\Api\AdminController::class, 'updateUser'])->name('app.admin.update-post')->middleware(['auth', 'admin']);
+    Route::post('/users/delete/{user_id}', [\App\Http\Controllers\Api\AdminController::class, 'deleteUser'])->name('app.admin.delete-post')->middleware(['auth', 'admin']);
     Route::get('/users', [AdminController::class, 'users'])->name('app.admin.users')->middleware(['auth', 'admin']);
+    Route::get('/add-user', [AdminController::class, 'addUser'])->name('app.admin.users.add')->middleware(['auth', 'admin']);
+    Route::post('/add-user', [\App\Http\Controllers\Api\AdminController::class, 'storeUser'])->name('app.admin.users.add-post')->middleware(['auth', 'admin']);
 });
 
 Route::prefix('common')->group(function () {
-    Route::get('/', [CommonController::class, 'index'])->name('common.index')->middleware(['auth', 'common']);
-    Route::get('/product', [CommonController::class, 'product'])->name('common.product')->middleware(['auth', 'common']);
-    Route::get('/brand', [CommonController::class, 'brand'])->name('common.brand')->middleware(['auth', 'common']);
-    Route::get('/category', [CommonController::class, 'category'])->name('common.category')->middleware(['auth', 'common']);
+    Route::get('/', [CommonController::class, 'index'])->name('app.common.index')->middleware(['auth', 'common']);
+    Route::get('/product', [CommonController::class, 'products'])->name('app.common.product')->middleware(['auth', 'common', 'product']);
+    Route::get('/brand', [CommonController::class, 'brands'])->name('app.common.brand')->middleware(['auth', 'common', 'brand']);
+    Route::get('/category', [CommonController::class, 'categories'])->name('app.common.category')->middleware(['auth', 'common', 'category']);
 });

@@ -1,4 +1,4 @@
-@extends("app.admin.__partials.basic")
+@extends("app.__partials.basic")
 @section("title", "Página Principal")
 @section("content")
     <div class="nk-content-body">

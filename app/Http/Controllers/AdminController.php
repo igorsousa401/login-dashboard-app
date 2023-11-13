@@ -23,8 +23,24 @@ class AdminController extends Controller
 
     public function users()
     {
-        $users = $this->userService->index();
+        $users = $this->userService->getUsersCommon();
         $users = $users["data"];
         return view("app.admin.users", compact("users"));
     }
+
+    public function addUser()
+    {
+        return view("app.admin.add-user");
+    }
+
+    public function updateUser(string $id)
+    {
+        $user = $this->userService->show($id);
+        if(!$user["success"]) {
+            abort(403, "O usuário não existe");
+        }
+        $user = $user["data"];
+        return view("app.admin.update-user", compact("user"));
+    }
+
 }
