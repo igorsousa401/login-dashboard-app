@@ -17,6 +17,17 @@ $ ./vendor/bin/sail php artisan key:generate
 $ ./vendor/bin/sail php artisan migrate
 ```
 
+Abaixo está um exemplo de informações do banco de dados no `.env` para lhe guiar.
+
+```
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=login_test_app
+DB_USERNAME=sail
+DB_PASSWORD=password
+```
+
 ## 2ª Opção - Setup inicial de projeto Laravel sem Docker
 Baixar do git. Criar o arquivo `.env`. Configura-lo, lembrando de colocar os dados de Banco de dados corretamente no `.env`.
 Instalar dependências com o Composer, gerar chave.
@@ -34,4 +45,8 @@ $ php artisan serve
 *Caso use o `php artisan serve`*
 
 - http://localhost:8000/register -> Rota destinada ao registro inicial do usuário admin, comece por essa rota para realizar seu cadastro de administrador.
+
+*Caso use o Docker*
+
+- http://localhost:80/register -> Rota destinada ao registro inicial do usuário admin, comece por essa rota para realizar seu cadastro de administrador.
 
